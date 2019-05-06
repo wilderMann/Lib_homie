@@ -92,6 +92,7 @@ public:
 Homie(PubSubClient *client);
 boolean connect(const char *id, const char *user, const char *pass);
 void disconnect();
+void sleep();
 boolean connected();
 boolean loop();
 void setDevice(HomieDevice device);

@@ -36,6 +36,12 @@ void Homie::disconnect(){
         this->client->disconnect();
 }
 
+void Homie::sleep(){
+        string topic = "homie/" + this->device.getDeviceId() + "/$state";
+        this->client->publish(topic.c_str(), "sleeping");
+        this->client->disconnect();
+}
+
 boolean Homie::connected(){
         return this->client->connected();
 }
