@@ -57,3 +57,7 @@ void Homie::setDevice(HomieDevice device){
 HomieDevice Homie::getDevice(){
         return this->device;
 }
+
+string Homie::getPubString(string nodeName, string propName){
+        return this->device.getPubString(nodeName, propName);
+}

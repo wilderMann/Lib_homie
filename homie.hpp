@@ -20,7 +20,7 @@ bool homieId(string id);
 
 class HomieProperties {
 private:
-string propName, fName, unit, format, feedBackTopic;
+string propName, fName, unit, format;
 bool settable;
 bool retained;
 homie::datatype datatype;
@@ -32,8 +32,8 @@ HomieProperties(string propName, string fName = "", bool settable = false,
 void init(PubSubClient *client, string prefix);
 string getPropName();
 string getDTString(homie::datatype type);
-string getFBTopic();
 string toString();
+string getPubString();
 };
 
 class HomieNode {
@@ -47,6 +47,7 @@ void init(PubSubClient *client, string prefix);
 void addProp(HomieProperties prop);
 string getNodeName();
 string toString();
+string getPubString(string propName);
 };
 
 class HomieNodeArray : public HomieNode {
@@ -61,6 +62,7 @@ void addProp(HomieProperties prop);
 void addNames(string name);
 string getNodeName();
 string toString();
+//string getPubString(string propName); Doesn't support this jet.
 };
 
 class HomieDevice {
@@ -81,6 +83,7 @@ void sendStats(PubSubClient *client, homie::stats stats, string payload);
 string getStatsString(homie::stats stats);
 string getDeviceId();
 string toString();
+string getPubString(string nodeName, string propName);
 };
 
 class Homie {
@@ -97,6 +100,7 @@ boolean connected();
 boolean loop();
 void setDevice(HomieDevice device);
 HomieDevice getDevice();
+string getPubString(string nodeName, string propName);
 };
 
 #endif

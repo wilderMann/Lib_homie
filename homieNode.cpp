@@ -97,3 +97,19 @@ string HomieNodeArray::getNodeName(){
 string HomieNodeArray::toString(){
         return "Node Name: " + nodeName + " fName: " + fName + " type: " + type;
 }
+
+string HomieNode::getPubString(string propName){
+        string nodeString = this->nodeName + "/";
+        string propString = "";
+        std::list<HomieProperties>::iterator it;
+        for(it = this->props.begin(); it != this->props.end(); ++it) {
+                if(it->getPropName() == propName) {
+                        propString = it->getPubString();
+                }
+        }
+        if(propString != "") {
+                return nodeString + propString;
+        }else{
+                return "";
+        }
+}

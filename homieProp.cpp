@@ -11,7 +11,6 @@ HomieProperties::HomieProperties(string propName, string fName, bool settable,
         this->unit = unit;
         this->datatype = datatype;
         this->format = format;
-        this->feedBackTopic = "";
         if(HOMIE_SERIAL) Serial.println("Property Const");
 }
 
@@ -27,7 +26,6 @@ void HomieProperties::init(PubSubClient *client, string prefix){
                 client->publish(topic.c_str(),"true", true);
                 topic = topicPrefix + "/set";
                 client->subscribe(topic.c_str());
-                this->feedBackTopic = topicPrefix;
         }
         if(!this->retained) {
                 topic = topicPrefix + "/$retained";
@@ -85,6 +83,6 @@ string HomieProperties::toString(){
         return "Property Name: " + propName + " fName: " + fName + " unit: " + unit + " format: " + format;
 }
 
-string HomieProperties::getFBTopic(){
-        return this->feedBackTopic;
+string HomieProperties::getPubString(){
+        return this->propName;
 }

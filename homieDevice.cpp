@@ -136,3 +136,19 @@ string HomieDevice::toString(){
                         implementation + " interval: " + interval;
         return output;
 }
+
+string HomieDevice::getPubString(string nodeName, string propName){
+        string deviceString = "homie/" + this->getDeviceId() + "/";
+        string nodeString = "";
+        std::list<HomieNode>::iterator it;
+        for(it = this->nodes.begin(); it != this->nodes.end(); ++it) {
+                if(it->getNodeName() == nodeName) {
+                        nodeString = it->getPubString(propName);
+                }
+        }
+        if(nodeString != "") {
+                return deviceString + nodeString;
+        }else{
+                return "";
+        }
+}
