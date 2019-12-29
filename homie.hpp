@@ -6,13 +6,12 @@
 #include <cctype>
 #include <ctype.h>
 
-#define HOMIE_SERIAL true
+#define HOMIE_SERIAL false
 
-#define HOMIE_VERSION "3.0.1"
+#define HOMIE_VERSION "4.0.0"
 
 using namespace std;
 namespace homie {
-enum stats {uptime, signal, cputemp, cpuload, battery, freeheap, supply};
 enum state {init, ready, disconnected, sleeping, lost, alert};
 enum datatype {integer_t, float_t, boolean_t, string_t, enum_t, color_t};
 bool homieId(string id);
@@ -31,7 +30,7 @@ HomieProperties(string propName, string fName = "", bool settable = false,
                 homie::datatype datatype = homie::string_t, string format = "");
 void init(PubSubClient *client, string prefix);
 string getPropName();
-string getDTString(homie::datatype type);
+string getDTString();
 string toString();
 string getPubString();
 };
@@ -50,37 +49,19 @@ string toString();
 string getPubString(string propName);
 };
 
-class HomieNodeArray : public HomieNode {
-private:
-std::list<string> arrayNames;
-long arraySize;
-
-public:
-HomieNodeArray(string nodeName, string fName, string type, long arraySize);
-void init(PubSubClient *client, string prefix);
-void addProp(HomieProperties prop);
-void addNames(string name);
-string getNodeName();
-string toString();
-//string getPubString(string propName); Doesn't support this jet.
-};
-
 class HomieDevice {
 private:
 std::list<HomieNode> nodes;
-string deviceId, fName, localIP, mac, fwName, fwVersion, implementation, interval;
+string deviceName, name, extensions, implementation;
+homie::state state;
 
 public:
-HomieDevice(string deviceId, string fName, string localIP, string mac,
-            string fwName, string fwVersion, string implementation,
-            string interval);
+HomieDevice(string deviceName, string name, string extensions, string implementation);
 HomieDevice();
 void init(PubSubClient *client);
-void setClient(PubSubClient * client);
+void setState(homie::state state);
 void addNode(HomieNode node);
-string getStateString(homie::state state);
-void sendStats(PubSubClient *client, homie::stats stats, string payload);
-string getStatsString(homie::stats stats);
+string getStateString();
 string getDeviceId();
 string toString();
 string getPubString(string nodeName, string propName);

@@ -32,12 +32,14 @@ boolean Homie::connect(const char *id, const char *user, const char *pass){
 
 void Homie::disconnect(){
         string topic = "homie/" + this->device.getDeviceId() + "/$state";
+        this->device.setState(homie::disconnected);
         this->client->publish(topic.c_str(), "disconnected");
         this->client->disconnect();
 }
 
 void Homie::sleep(){
         string topic = "homie/" + this->device.getDeviceId() + "/$state";
+        this->device.setState(homie::sleeping);
         this->client->publish(topic.c_str(), "sleeping");
         this->client->disconnect();
 }
