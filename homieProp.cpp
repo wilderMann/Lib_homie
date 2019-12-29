@@ -22,6 +22,8 @@ void HomieProperties::init(PubSubClient *client, string prefix){
         if(this->settable) {
                 topic = topicPrefix + "/$settable";
                 client->publish(topic.c_str(),"true", true);
+                topic = topicPrefix + "/set";
+                client->subscribe(topic.c_str());
         }else{
                 topic = topicPrefix + "/$settable";
                 client->publish(topic.c_str(),"false", true);
